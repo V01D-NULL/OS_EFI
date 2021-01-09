@@ -230,6 +230,7 @@ struct EFI_USB_IO_PROTOCOL;
 struct EFI_USBFN_IO_PROTOCOL;
 struct EFI_PCI_ROOT_BRIDGE_IO_PROTOCOL;
 struct EFI_PCI_IO_PROTOCOL;
+struct EFI_ACPI_TABLE_PROTOCOL;
 
 // Page 177 - UEFI Specs 2.8b
 typedef struct EFI_GUID
@@ -255,6 +256,7 @@ struct EFI_GUID EFI_GLOBAL_VARIABLE_GUID             = {0x8BE4DF61,  0x93CA, 0x1
 struct EFI_GUID MPS_TABLE_GUID                       = {0xeb9d2d2f,  0x2d88, 0x11d3, {0x9a, 0x16, 0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d}};
 struct EFI_GUID ACPI_TABLE_GUID                      = {0xeb9d2d30,  0x2d88, 0x11d3, {0x9a, 0x16, 0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d}};
 struct EFI_GUID ACPI_20_TABLE_GUID                   = {0x8868e871,  0xe4f1, 0x11d3, {0xbc, 0x22, 0x00, 0x80, 0xc7, 0x3c, 0x88, 0x81}};
+struct EFI_GUID EFI_ACPI_TABLE_PROTOCOL_GUID         = {0xffe06bdd,  0x6107, 0x46a6, {0x7b, 0xb2, 0x5a, 0x9c, 0x7e, 0xc5, 0x27, 0x5c}};
 struct EFI_GUID SMBIOS_TABLE_GUID                    = {0xeb9d2d31,  0x2d88, 0x11d3, {0x9a, 0x16, 0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d}};
 struct EFI_GUID SMBIOS3_TABLE_GUID                   = {0xf2fd1544,  0x9794, 0x4a2c, {0x99, 0x2e, 0xe5, 0xbb, 0xcf, 0x20, 0xe3, 0x94}};
 struct EFI_GUID SAL_SYSTEM_TABLE_GUID                = {0xeb9d2d32,  0x2d88, 0x11d3, {0x9a, 0x16, 0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d}};
@@ -1478,3 +1480,15 @@ typedef struct EFI_PCI_IO_PROTOCOL
     UINT64                                    RomSize;
     void                                      *RomImage;
 } EFI_PCI_IO_PROTOCOL;
+
+// ACPI
+typedef EFI_STATUS (*EFI_ACPI_TABLE_INSTALL_ACPI_TABLE)(struct EFI_ACPI_TABLE_PROTOCOL *This, void *AcpiTableBuffer, UINTN AcpiTableBufferSize, UINTN *TableKey);
+typedef EFI_STATUS (*EFI_ACPI_TABLE_UNINSTALL_ACPI_TABLE)(struct EFI_ACPI_TABLE_PROTOCOL *This, UINTN TableKey);
+
+// Page 894 - UEFI Specs 2.8b
+typedef struct EFI_ACPI_TABLE_PROTOCOL
+{
+    EFI_ACPI_TABLE_INSTALL_ACPI_TABLE    InstallAcpiTable;
+    EFI_ACPI_TABLE_UNINSTALL_ACPI_TABLE  UninstallAcpiTable;
+} EFI_ACPI_TABLE_PROTOCOL;
+
