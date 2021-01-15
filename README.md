@@ -36,7 +36,7 @@ https://nuwen.net/mingw.html
 
 NOTE : This is a picture from my laptop. This doesn't work in VirtualBox.
 
-       I am guessing that it needs USB 3.0 support for it to work in VB.
+       VirtualBox states that the EFI is experimental and most likely this is why  USB 3.0 support does not work.
 
 ![Mouse](example_4.png)
 
