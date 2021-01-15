@@ -12,6 +12,9 @@ Examples are included.
 **NOTE :** This has only been tested on windows with GCC 9.2 ( no cross-compiler needed )
 
 
+**NOTE 2 :** The UEFI Specs on page 29 explain about the Hardware to UEFI State. This means, on windows, do NOT use the -Wno-red-zone switch on your GCC. Linux however ignores the UEFI standard, and uses that switch by default. This explains why many OS Devs are having alignment issues.
+
+
 MinGWx64 ( GCC )
 
 https://nuwen.net/mingw.html
