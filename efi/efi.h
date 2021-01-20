@@ -67,8 +67,7 @@
 #define EFI_MAGENTA                             0x05
 #define EFI_BROWN                               0x06
 #define EFI_LIGHTGRAY                           0x07
-#define EFI_BRIGHT                              0x08
-#define EFI_DARKGRAY (EFI_BLACK | EFI_BRIGHT)   0x08
+#define EFI_DARKGRAY                            0x08
 #define EFI_LIGHTBLUE                           0x09
 #define EFI_LIGHTGREEN                          0x0A
 #define EFI_LIGHTCYAN                           0x0B
