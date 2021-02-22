@@ -6,7 +6,22 @@
 #define DECIMAL 10
 #define HEX     16
 
-#define NULL  0
+#define NULL  (void*)0
+
+#define STDOUT(string) SysTable->ConOut->OutputString(SysTable->ConOut, (CHAR16*)string)
+
+#include <stdarg.h> //Contains macros such as va_list, va_start & va_end
+#include "../efi/efi.h"
+#include "../efi/ErrorCodes.h"
+
+EFI_SYSTEM_TABLE* SysTable = 0;
+EFI_HANDLE ImgHandle = 0;
+
+void EFI_lib_init(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
+{
+    SysTable = SystemTable;
+    ImgHandle = ImageHandle;
+}
 
 void* memcpy(void* dst, const void* src, unsigned long long size)
 {
@@ -66,4 +81,61 @@ void uitoa(unsigned long int n, unsigned short *buffer, int basenumber)
 		buffer[j] = buffer[i];
 		buffer[i] = hold;
 	}
+}
+
+signed int EFI_strlen(const char* string)
+{
+    int result = 0;
+    while (*string++ != '\0')
+    {
+        result++;
+    }
+    return result;
+}
+
+int EFI_Printf(const char *fmt, ...)
+{
+    if (SysTable == 0)
+    {
+        return -1; //Cannot get a handle to SystemTable, therefore printing isn't possible. EFI_lib_init() must be called from the bootloader source file
+    }
+    va_list ap;
+    va_start(ap, fmt);
+
+    for (int i = 0; i < EFI_strlen(fmt); i++)
+    {
+        switch (fmt[i])
+        {
+            case '%':
+            {
+                switch (fmt[i+1])
+                {
+                    case 'c':
+                    {
+                        char character = va_arg(ap, int);
+                        STDOUT(character);
+                        i+=2;
+                        break;
+                    }
+                    case 's':
+                    {
+                        char *string = va_arg(ap, char*);
+                        STDOUT(string);
+                        i+=2;
+                        break;
+                    }
+                    //Todo:
+                    // Add cases for x, X, d, i, etc. Just convert the number to a decimal or hexadecimal string and print that
+                    default:
+                        va_end(ap);
+                        break;
+                }
+            }
+            default:
+                va_end(ap);
+                STDOUT(fmt[i]);
+        }
+    }
+    va_end(ap);
+    return 0; //Success
 }
