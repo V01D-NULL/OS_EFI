@@ -2,6 +2,8 @@ NOTE: This isn't my code, I merely forked this repo.
 
 The account whom this repo belonged to seems to have been deleted.
 
+There are no planned changes or updates for this repository
+
 # ThatOSDev's EFI Library
 
 This is the Unified Extensible Firmware Interface ( UEFI ) written from scratch. This is based off of the official UEFI 2.8b Specs PDF.
